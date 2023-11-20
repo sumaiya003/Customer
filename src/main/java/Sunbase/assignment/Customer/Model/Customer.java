@@ -12,9 +12,13 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Customer {
+
+//    @Id
+//    @GeneratedValue
+//    private UUID uuid;
     @Id
-    @GeneratedValue
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int cid;
     private String first_name;
     private String last_name;
     private String street;
@@ -25,8 +29,8 @@ public class Customer {
     private String phone;
 
     public Customer(String first_name, String last_name, String street, String address, String city, String state, String email, String phone) {
-        UUID uuid1 = UUID.randomUUID();
-        this.uuid = uuid1;
+//        UUID uuid1 = UUID.randomUUID();
+//        this.uuid=uuid1;
         this.first_name = first_name;
         this.last_name = last_name;
         this.street = street;

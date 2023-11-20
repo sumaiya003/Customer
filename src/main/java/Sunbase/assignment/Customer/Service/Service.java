@@ -11,9 +11,9 @@ public interface Service {
 
     ResponseEntity<List<Customer>> getCustomerList();
 
-    ResponseEntity<String> deleteCustomer(UUID uuid);
+    ResponseEntity<String> deleteCustomer(int uuid);
 
-    ResponseEntity<String> updateCustomer(UUID uuid , Customer customer);
+    ResponseEntity<String> updateCustomer(int uuid , Customer customer);
 
 
 

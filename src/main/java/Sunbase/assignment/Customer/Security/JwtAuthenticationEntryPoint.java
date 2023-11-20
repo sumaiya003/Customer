@@ -15,7 +15,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final long serialVersionUID = -7858869558953243875L;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Access Denied ");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Access Denied -> ");
         //this method is used when an unauthorized user tries to access the api
     }
 

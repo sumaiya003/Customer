@@ -2,6 +2,8 @@ package Sunbase.assignment.Customer.Service;
 
 import Sunbase.assignment.Customer.Model.Customer;
 import Sunbase.assignment.Customer.Repo.CustomerRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +13,13 @@ import java.util.UUID;
 @org.springframework.stereotype.Service
 public class ServiceImp implements Service{
 
+    Logger logger= LoggerFactory.getLogger(ServiceImp.class);
     @Autowired
     CustomerRepo repo;
     @Override
     public ResponseEntity<String> createCustomer(Customer customer) {
 
-        if(customer.getFirst_name()=="" || customer.getLast_name() =="")
+        if(customer.getLast_name()==null || customer.getFirst_name()==null || customer.getFirst_name().trim().length()==0 || customer.getLast_name().trim().length()==0 )
             return new ResponseEntity<>("Failure: 400, First Name or Last Name is missing", HttpStatus.BAD_REQUEST);
         else {
             repo.save(customer);
@@ -29,11 +32,14 @@ public class ServiceImp implements Service{
         return new ResponseEntity<>(repo.findAll(),HttpStatus.OK);
     }
     @Override
-    public ResponseEntity<String> deleteCustomer(UUID uuid) {
-
+    public ResponseEntity<String> deleteCustomer(int uuid) {
+//   logger.info("-------------------------------------------------");
         List<Customer> ll = repo.findAll();
+//        logger.info("uuid is :: "+ uuid.toString());
         for ( Customer uid:ll){
-            if (uid.getUuid() == uuid){
+//            logger.info("uuid inside table is :" + uid.getUuid());
+            if (uid.getCid() == uuid){
+                logger.info("================SAME UUID PRESENT================================");
                 repo.deleteById(uuid);
                 return new ResponseEntity<>("200, Successfully deleted",HttpStatus.OK);
             }
@@ -45,11 +51,14 @@ public class ServiceImp implements Service{
     }
 
     @Override
-    public ResponseEntity<String> updateCustomer(UUID uuid,Customer customer) {
+    public ResponseEntity<String> updateCustomer(int uuid, Customer customer) {
+
+        logger.info("++++++++++++++++++++++++++" + uuid);
 
         List<Customer> customerList = repo.findAll();
         for (Customer cuid: customerList){
-            if (cuid.getUuid() == uuid){
+            logger.info("uuid ::" +  cuid);
+            if (cuid.getCid() == uuid){
                 cuid.setFirst_name(customer.getFirst_name());
                 cuid.setLast_name(customer.getLast_name());
                 cuid.setStreet(customer.getStreet());
@@ -69,7 +78,6 @@ public class ServiceImp implements Service{
         // -------------------------------------------------------------------------------------
 
         //----in backend :
-        // header , security using tokens
         // above 2 errors to be handled;
 
         //--- frontend left
