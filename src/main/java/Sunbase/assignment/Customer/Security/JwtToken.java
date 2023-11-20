@@ -16,7 +16,7 @@ public class JwtToken implements Serializable {
 
     private static final long serialVersionUID = -2550185165626007488L;
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -37,7 +37,8 @@ public class JwtToken implements Serializable {
     }
     // to get any info from the token we will need the secret key
     private Claims getAllClaimsFromToken(String  token){
-        return Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody();
+//        return Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
     //check if the token has expired or not
     private boolean isTokenExpired(String token){
